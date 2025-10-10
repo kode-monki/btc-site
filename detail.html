@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Page</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    iframe { width: 100%; height: 315px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <a href="index.html">← Back to list</a>
+  <div id="content"></div>
+
+  <script>
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmlApPlHI0wZmDVfFQiOq4lA4OJVICOPwYB3lyK0WX9PKmvKaX-kiNUULlAxM07cu4QlwrYZzeFc9V/pub?output=csv';
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    fetch(sheetURL)
+      .then(r => r.text())
+      .then(csv => {
+        const rows = csv.split('\n').map(r => r.split(','));
+        const [headers, ...data] = rows;
+        const record = data.find(r => r[0] === id);
+        if (!record) return document.body.innerHTML = '<p>Not found</p>';
+
+        const fields = Object.fromEntries(headers.map((h,i) => [h, record[i]]));
+        const container = document.getElementById('content');
+
+        container.innerHTML = `
+          <h1>${fields.Title}</h1>
+          <p>${fields.Description}</p>
+          ${fields.Video1 ? embed(fields.Video1) : ''}
+          ${fields.Video2 ? embed(fields.Video2) : ''}
+        `;
+      });
+
+    function embed(url) {
+      const videoId = url.split('v=')[1] || url.split('/').pop();
+      return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+    }
+  </script>
+</body>
+</html>

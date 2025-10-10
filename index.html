@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sheet Data Table</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { cursor: pointer; background: #f2f2f2; }
+    th.sort-asc::after { content: " ↑"; }
+    th.sort-desc::after { content: " ↓"; }
+    input { margin-bottom: 10px; padding: 6px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Data Table</h1>
+  <input type="text" id="search" placeholder="Search...">
+  <table id="data-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmlApPlHI0wZmDVfFQiOq4lA4OJVICOPwYB3lyK0WX9PKmvKaX-kiNUULlAxM07cu4QlwrYZzeFc9V/pub?gid=0&single=true&output=csv';
+    let headers = [];
+    let tableData = [];
+    let sortColumn = null;
+    let sortDirection = 'asc';
+
+    fetch(sheetURL)
+      .then(r => r.text())
+      .then(csv => {
+        const rows = csv.split('\n').map(r => r.split(','));
+        [headers, ...tableData] = rows;
+        renderTable();
+      });
+
+    function renderTable(data = tableData) {
+      const thead = document.querySelector('#data-table thead');
+      const tbody = document.querySelector('#data-table tbody');
+
+      thead.innerHTML = '<tr>' + headers.map((h, i) =>
+        `<th onclick="sortTable(${i})" class="${sortColumn === i ? 'sort-' + sortDirection : ''}">${h}</th>`
+      ).join('') + '</tr>';
+
+      tbody.innerHTML = data.map(row => `
+        <tr onclick="window.location='detail.html?id=${row[0]}'">
+          ${row.map(c => `<td>${c}</td>`).join('')}
+        </tr>
+      `).join('');
+    }
+
+    function sortTable(index) {
+      sortDirection = (sortColumn === index && sortDirection === 'asc') ? 'desc' : 'asc';
+      sortColumn = index;
+      tableData.sort((a, b) => {
+        const valA = a[index].toLowerCase();
+        const valB = b[index].toLowerCase();
+        if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+        return 0;
+      });
+      renderTable();
+    }
+
+    document.getElementById('search').addEventListener('input', e => {
+      const term = e.target.value.toLowerCase();
+      const filtered = tableData.filter(r => r.join(' ').toLowerCase().includes(term));
+      renderTable(filtered);
+    });
+  </script>
+</body>
+</html>
