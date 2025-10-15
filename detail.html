@@ -1,46 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detail Page</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; }
-    iframe { width: 100%; height: 315px; margin: 10px 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Page</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+      padding-top: 50px; /* match the height of the header */
+
+  }
+  header {
+    background: #262e6b;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2em;
+  }
+  header p {
+    margin: 5px 0;
+    font-size: 1.1em;
+  }
+  main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  section {
+    margin-bottom: 25px;
+  }
+  section h2 {
+    color: #262e6b;
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+  .video iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: 8px;
+  }
+  a.back {
+    display: inline-block;
+    margin: 20px;
+    text-decoration: none;
+    color: #262e6b;
+    font-weight: bold;
+  }
+  a.back:hover {
+    text-decoration: underline;
+  }
+  .button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .paper-btn { background: #0056b3; }
+  .slides-btn { background: #28a745; }
+  #bio { background:#d8d8d8; padding:15px; border-left:4px solid #262e6b; }
+  
+</style>
+
+
 </head>
 <body>
-  <a href="index.html">← Back to list</a>
-  <div id="content"></div>
 
-  <script>
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmlApPlHI0wZmDVfFQiOq4lA4OJVICOPwYB3lyK0WX9PKmvKaX-kiNUULlAxM07cu4QlwrYZzeFc9V/pub?output=csv';
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+<div id="header-container"></div>
+<hr style="color: white;">
+<header>
+  <h1 id="title">Loading...</h1>
+  <p id="author"></p>
 
-    fetch(sheetURL)
-      .then(r => r.text())
-      .then(csv => {
-        const rows = csv.split('\n').map(r => r.split(','));
-        const [headers, ...data] = rows;
-        const record = data.find(r => r[0] === id);
-        if (!record) return document.body.innerHTML = '<p>Not found</p>';
+</header>
 
-        const fields = Object.fromEntries(headers.map((h,i) => [h, record[i]]));
-        const container = document.getElementById('content');
+<main>
+  <a href="index.html" class="back">← Back to list</a>
 
-        container.innerHTML = `
-          <h1>${fields.Title}</h1>
-          <p>${fields.Description}</p>
-          ${fields.Video1 ? embed(fields.Video1) : ''}
-          ${fields.Video2 ? embed(fields.Video2) : ''}
-        `;
-      });
+<section id="tracks-section">
+  <h2>Tracks</h2>
+  <div id="tracks-tags" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+</section>
+  <section>
+    <h2>Abstract</h2>
+    <div id="abstract"></div>
+  </section>
 
-    function embed(url) {
-      const videoId = url.split('v=')[1] || url.split('/').pop();
-      return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    }
-  </script>
+  <section id="video-section" class="video"></section>
+
+  <section id="downloads"></section>
+
+  <section id="bio">
+    <h2>Author Bio</h2>
+    <div id="bio-text"></div>
+  </section>
+</main>
+
+<!-- Markdown parser -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  if (!id) { document.getElementById("title").innerText = "No ID provided"; return; }
+
+  const sheetId = "1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4";
+  const apiKey = "AIzaSyDVm6aphEoWIpLo5auPo8UN2L5wX_-8z7A";
+  const range = "Sheet1";
+
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      const rows = data.values || [];
+      const headers = rows[0];
+      const tableData = rows.slice(1);
+
+      const match = tableData.find(r => r[0] === id);
+      if (!match) { document.getElementById("title").innerText = "Item not found"; return; }
+
+      const rowData = {};
+      headers.forEach((h,i)=>rowData[h]=match[i]);
+
+      // Populate title & author
+      document.getElementById("title").innerText = rowData["Title"];
+      document.getElementById("author").innerText = "Written by " + (rowData["Author"] || "Unknown");
+
+      // Abstract (Markdown)
+      document.getElementById("abstract").innerHTML = rowData["Abstract"] ? marked.parse(rowData["Abstract"]) : "No abstract provided.";
+
+      // Video
+      const videoSection = document.getElementById("video-section");
+      if (rowData["Video"]) {
+        const videoIdMatch = rowData["Video"].match(/(?:youtube\.com\/.*v=|youtu\.be\/)([^"&?/]+)/);
+        if (videoIdMatch) {
+          const embed = document.createElement("iframe");
+          embed.src = `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+          embed.allowFullscreen = true;
+          videoSection.appendChild(embed);
+        }
+      }
+
+      // Buttons for Paper/Slides
+      const downloads = document.getElementById("downloads");
+      downloads.innerHTML = "";
+      if (rowData["Paper"]) {
+        const paperBtn = document.createElement("a");
+        paperBtn.href = rowData["Paper"];
+        paperBtn.target = "_blank";
+        paperBtn.innerText = "Paper";
+        paperBtn.className = "button paper-btn";
+        downloads.appendChild(paperBtn);
+      }
+      if (rowData["Slides"]) {
+        const slidesBtn = document.createElement("a");
+        slidesBtn.href = rowData["Slides"];
+        slidesBtn.target = "_blank";
+        slidesBtn.innerText = "Slides";
+        slidesBtn.className = "button slides-btn";
+        downloads.appendChild(slidesBtn);
+      }
+
+      // Bio (Markdown)
+      const bioSection = document.getElementById("bio");
+      if (rowData["Bio"]) {
+        document.getElementById("bio-text").innerHTML = marked.parse(rowData["Bio"]);
+      } else {
+        bioSection.style.display = "none";
+      }
+
+      // Tracks tags (semicolon-separated)
+const tracksTags = document.getElementById("tracks-tags");
+if (rowData["Tracks"]) {
+  const tracks = rowData["Tracks"].split(';').map(t => t.trim()).filter(Boolean);
+  tracks.forEach(track => {
+    const span = document.createElement("span");
+    span.innerText = track;
+    span.style.cssText = `
+      background: #262e6b;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.9em;
+      display: inline-block;
+    `;
+    tracksTags.appendChild(span);
+  });
+} else {
+  document.getElementById("tracks-section").style.display = "none";
+}
+
+
+
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("title").innerText = "Error loading data";
+    });
+});
+  fetch('header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+</script>
 </body>
 </html>

@@ -1,75 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sheet Data Table</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { cursor: pointer; background: #f2f2f2; }
-    th.sort-asc::after { content: " ↑"; }
-    th.sort-desc::after { content: " ↓"; }
-    input { margin-bottom: 10px; padding: 6px; width: 100%; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BT Conference 2025</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    line-height: 1.5;
+    background: #f4f4f4;
+  }
+
+  /* Hero Section */
+  #hero {
+    background-image: url('https://images.squarespace-cdn.com/content/v1/5ee926dbb9317675bedf6b8c/5f0d1438-053d-4c1d-8ecd-9d58a7a64b2b/BTC25-Logo.png'); /* Replace with your hero image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+  }
+  #hero h1 { font-size: 3em; margin-bottom: 20px; }
+  #hero p { font-size: 1.5em; margin-bottom: 30px; }
+  #hero a {
+    background-color: #262e6b;
+    color: white;
+    padding: 14px 28px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  #hero a:hover { background-color: #1a2150; }
+
+  /* About Section */
+  #about {
+    padding: 60px 20px;
+    text-align: center;
+    background: white;
+  }
+  #about h2 { color: #262e6b; margin-bottom: 20px; }
+  #about p { max-width: 700px; margin: 0 auto; font-size: 1.1em; }
+
+  /* Plenary Speakers */
+  #plenary-speakers {
+    padding: 60px 20px;
+    background: #f4f4f4;
+  }
+  #plenary-speakers h2 { text-align: center; color: #262e6b; margin-bottom: 40px; }
+  #speakers-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  .speaker-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 180px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .speaker-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  }
+  .speaker-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  .speaker-card h3 { margin: 10px 0 5px; font-size: 1.1em; color: #262e6b; }
+  .speaker-card p { font-size: 0.95em; color: #555; margin: 0; }
+
+  /* Sponsors */
+  #sponsors {
+    padding: 60px 20px;
+    background: white;
+    text-align: center;
+  }
+  #sponsors h2 { color: #262e6b; margin-bottom: 30px; }
+  #sponsors-logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+  }
+  #sponsors-logos img {
+    max-height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s;
+  }
+  #sponsors-logos img:hover { transform: scale(1.05); }
+
+  /* Responsive adjustments */
+  @media(max-width: 600px) {
+    #hero h1 { font-size: 2em; }
+    #hero p { font-size: 1.2em; }
+    .speaker-card { width: 140px; }
+  }
+</style>
 </head>
 <body>
-  <h1>Data Table</h1>
-  <input type="text" id="search" placeholder="Search...">
-  <table id="data-table">
-    <thead></thead>
-    <tbody></tbody>
-  </table>
 
-  <script>
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmlApPlHI0wZmDVfFQiOq4lA4OJVICOPwYB3lyK0WX9PKmvKaX-kiNUULlAxM07cu4QlwrYZzeFc9V/pub?gid=0&single=true&output=csv';
-    let headers = [];
-    let tableData = [];
-    let sortColumn = null;
-    let sortDirection = 'asc';
+<!-- Include sticky header -->
+<div id="header-container"></div>
 
-    fetch(sheetURL)
-      .then(r => r.text())
-      .then(csv => {
-        const rows = csv.split('\n').map(r => r.split(','));
-        [headers, ...tableData] = rows;
-        renderTable();
-      });
+<!-- Hero Section -->
+<section id="hero">
+  <h1>BT Conference 2025</h1>
+  <p>Innovating the Future of Technology</p>
+  <a href="register.html">Register Now</a>
+</section>
 
-    function renderTable(data = tableData) {
-      const thead = document.querySelector('#data-table thead');
-      const tbody = document.querySelector('#data-table tbody');
+<!-- About Section -->
+<section id="about">
+  <h2>About the Conference</h2>
+  <p>Join us for an immersive experience where industry leaders converge to discuss the latest in technology and innovation.</p>
+</section>
 
-      thead.innerHTML = '<tr>' + headers.map((h, i) =>
-        `<th onclick="sortTable(${i})" class="${sortColumn === i ? 'sort-' + sortDirection : ''}">${h}</th>`
-      ).join('') + '</tr>';
+<!-- Plenary Speakers -->
+<section id="plenary-speakers">
+  <h2>Plenary Speakers</h2>
+  <div id="speakers-list"></div>
+</section>
 
-      tbody.innerHTML = data.map(row => `
-        <tr onclick="window.location='detail.html?id=${row[0]}'">
-          ${row.map(c => `<td>${c}</td>`).join('')}
-        </tr>
-      `).join('');
-    }
+<!-- Sponsors Section -->
+<section id="sponsors">
+  <h2>Our Sponsors</h2>
+  <div id="sponsors-logos"></div>
+</section>
 
-    function sortTable(index) {
-      sortDirection = (sortColumn === index && sortDirection === 'asc') ? 'desc' : 'asc';
-      sortColumn = index;
-      tableData.sort((a, b) => {
-        const valA = a[index].toLowerCase();
-        const valB = b[index].toLowerCase();
-        if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
-        if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
-        return 0;
-      });
-      renderTable();
-    }
+<script>
+  // Load sticky header
+  fetch('header.html')
+    .then(res => res.text())
+    .then(html => document.getElementById('header-container').innerHTML = html)
+    .catch(err => console.error('Failed to load header:', err));
 
-    document.getElementById('search').addEventListener('input', e => {
-      const term = e.target.value.toLowerCase();
-      const filtered = tableData.filter(r => r.join(' ').toLowerCase().includes(term));
-      renderTable(filtered);
+  // Google Sheets settings
+  const SHEET_ID = '1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4';
+  const API_KEY = 'AIzaSyDVm6aphEoWIpLo5auPo8UN2L5wX_-8z7A';
+  const SPEAKERS_RANGE = 'PlenarySpeakers!A:G'; // Year | Name | Title | Affiliation | Photo URL | Bio | Series
+  const SPONSORS_RANGE = 'Sponsors!A:B';        // Name | Logo URL
+
+  async function fetchSheetData(range) {
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`
+    );
+    const data = await response.json();
+    if (!data.values) return [];
+    return data.values.slice(1); // Skip header row
+  }
+
+  function displaySpeakers(speakers) {
+  const container = document.getElementById('speakers-list');
+  speakers.slice(0, 7).forEach(row => {
+    const year = row[0] || '';
+    const name = row[1] || '';
+    const title = row[2] || '';
+    const affiliation = row[3] || '';
+    const photoUrl = row[4] || '';
+    const bio = row[5] || '';
+    const lecture = row[6] || ''; // default to empty string if missing
+
+    const card = document.createElement('div');
+    card.className = 'speaker-card';
+    card.innerHTML = `
+      <h4>${lecture}</h4>
+      <img src="${photoUrl}" alt="${name}">
+      <h3>${name}</h3>
+      <p>${affiliation}</p>
+    `;
+    container.appendChild(card);
+  });
+
+  }
+
+  function displaySponsors(sponsors) {
+    const container = document.getElementById('sponsors-logos');
+    sponsors.forEach(([name, logoUrl]) => {
+      const div = document.createElement('div');
+      div.innerHTML = `<img src="${logoUrl}" alt="${name}">`;
+      container.appendChild(div);
     });
-  </script>
+  }
+
+  async function loadData() {
+    try {
+      const [speakers, sponsors] = await Promise.all([
+        fetchSheetData(SPEAKERS_RANGE),
+        fetchSheetData(SPONSORS_RANGE)
+      ]);
+      displaySpeakers(speakers);
+      displaySponsors(sponsors);
+    } catch (err) {
+      console.error('Error loading sheet data:', err);
+    }
+  }
+
+  loadData();
+</script>
 </body>
 </html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sheet Viewer</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; 
+        padding-top: 50px; /* match the height of the header */
+    }
+    h1 { margin-bottom: 10px; }
+    .controls { display: flex; gap: 10px; margin-bottom: 15px; }
+    input, select { padding: 6px 10px; font-size: 14px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+    th { background: #f5f5f5; cursor: pointer; user-select: none; }
+    tr:hover { background-color: #f0f8ff; }
+    th.sort-asc::after { content: " ▲"; }
+    th.sort-desc::after { content: " ▼"; }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <h1>BTC Proceedings</h1>
+
+  <div class="controls">
+    <select id="filter">
+      <option value="">All Years</option>
+    </select>
+    <input type="text" id="search" placeholder="Search..." />
+  </div>
+
+  <table id="data-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+  const sheetId = "1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4";
+  const apiKey = "AIzaSyDVm6aphEoWIpLo5auPo8UN2L5wX_-8z7A";
+  const range = "Sheet1";
+  const filterColumn = "Year"; // 👈 adjust to your column name
+  const visibleColumns = ["Title","Author","Year"]; // only these columns show in main table
+
+
+  let headers = [];
+  let tableData = [];
+  let currentFilter = "";
+  let currentSearch = "";
+  let sortColumn = null;
+  let sortDirection = "asc";
+
+  // ✅ Fetch data
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.values) throw new Error("No data found");
+      headers = data.values[0];
+      tableData = data.values.slice(1);
+      populateFilter();
+      renderTable(getFilteredData());
+    })
+    .catch(err => {
+      document.body.innerHTML += `<p style="color:red;">Error: ${err.message}</p>`;
+      console.error(err);
+    });
+
+  // ✅ Build dropdown
+  function populateFilter() {
+    const colIndex = headers.indexOf(filterColumn);
+    if (colIndex === -1) return;
+    const unique = [...new Set(tableData.map(r => r[colIndex]).filter(Boolean))].sort();
+    const select = document.getElementById('filter');
+    unique.forEach(val => {
+      const opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = val;
+      select.appendChild(opt);
+    });
+  }
+
+  function renderTable(rows) {
+    const thead = document.querySelector("#data-table thead");
+    const tbody = document.querySelector("#data-table tbody");
+
+    // Map visible column names to indices
+    const visibleIndices = visibleColumns.map(c => headers.indexOf(c)).filter(i => i !== -1);
+
+    // Header row
+    thead.innerHTML = `
+      <tr>
+        ${visibleIndices.map(i => `
+          <th data-index="${i}" class="${sortColumn===i?'sort-'+sortDirection:''}">${headers[i]}</th>
+        `).join("")}
+      </tr>
+    `;
+
+    // Body rows
+    tbody.innerHTML = rows.map(r =>
+      `<tr onclick="window.location='detail.html?id=${encodeURIComponent(r[0])}'">
+        ${visibleIndices.map(i => `<td>${r[i] || ""}</td>`).join("")}
+      </tr>`
+    ).join("");
+
+    // Attach sort handlers to visible columns only
+    thead.querySelectorAll("th").forEach(th => {
+      th.addEventListener("click", () => {
+        const index = parseInt(th.dataset.index);
+        if (sortColumn === index) {
+          sortDirection = sortDirection === "asc" ? "desc" : "asc";
+        } else {
+          sortColumn = index;
+          sortDirection = "asc";
+        }
+        renderTable(getFilteredData());
+      });
+    });
+  }
+
+  // ✅ Combine search + filter + sort
+  function getFilteredData() {
+    let filtered = [...tableData];
+
+    // Filter
+    if (currentFilter) {
+      const colIndex = headers.indexOf(filterColumn);
+      filtered = filtered.filter(r => r[colIndex] === currentFilter);
+    }
+
+    // Search
+    if (currentSearch) {
+      const term = currentSearch.toLowerCase();
+      filtered = filtered.filter(r => r.join(" ").toLowerCase().includes(term));
+    }
+
+    // Sort
+    if (sortColumn !== null) {
+      filtered.sort((a, b) => {
+        const valA = a[sortColumn] || "";
+        const valB = b[sortColumn] || "";
+        return sortDirection === "asc"
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      });
+    }
+
+    return filtered;
+  }
+
+  // ✅ Event listeners
+  document.getElementById("filter").addEventListener("change", e => {
+    currentFilter = e.target.value;
+    renderTable(getFilteredData());
+  });
+
+  document.getElementById("search").addEventListener("input", e => {
+    currentSearch = e.target.value;
+    renderTable(getFilteredData());
+  });
+  fetch('header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+  </script>
+</body>
+</html>

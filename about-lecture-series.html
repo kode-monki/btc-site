@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About the Lecture Series</title>
+  <style>
+    /* Sticky header */
+    #sticky-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      background: #262e6b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      height: 60px;
+    }
+
+    #sticky-menu .logo img {
+      height: 40px;
+    }
+
+    /* Hamburger button */
+    #menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    #menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+    }
+
+    /* Navigation links */
+    #sticky-menu ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 30px;
+      align-items: center;
+    }
+
+    #sticky-menu ul li {
+      position: relative;
+    }
+
+    #sticky-menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px;
+      display: block;
+      transition: color 0.2s;
+    }
+
+    #sticky-menu ul li a:hover {
+      color: #f4f4f4;
+      text-decoration: underline;
+    }
+
+    /* Dropdown menu */
+    #sticky-menu ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #262e6b;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      min-width: 180px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    #sticky-menu ul li:hover > ul {
+      display: block;
+    }
+
+    #sticky-menu ul li ul li a {
+      padding: 10px 20px;
+      font-weight: normal;
+    }
+
+    #sticky-menu ul li ul li a:hover {
+      background: #1a2150;
+    }
+
+    body {
+      padding-top: 60px; /* offset for fixed header */
+    }
+
+    /* Mobile styles */
+    @media(max-width: 768px) {
+      #menu-toggle { display: flex; }
+
+      #sticky-menu ul {
+        position: fixed;
+        top: 0;
+        right: -250px; /* hidden off-canvas */
+        height: 100vh;
+        width: 250px;
+        flex-direction: column;
+        gap: 0;
+        background: #262e6b;
+        padding-top: 60px;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+      }
+
+      #sticky-menu ul.open {
+        right: 0; /* slide in */
+      }
+
+      #sticky-menu ul li {
+        width: 100%;
+      }
+
+      #sticky-menu ul li ul {
+        position: static;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      #sticky-menu ul li.open > ul {
+        max-height: 500px; /* expand submenu */
+      }
+
+      #sticky-menu ul li a {
+        padding: 15px 20px;
+      }
+    }
+
+    /* Main content */
+    .content {
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .lecture-section {
+      margin-bottom: 40px;
+    }
+
+    .lecture-section h2 {
+      font-size: 1.8em;
+      color: #262e6b;
+      margin-bottom: 10px;
+    }
+
+    .lecture-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .lecture-section a {
+      color: #262e6b;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .lecture-section a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <nav id="sticky-menu">
+    <div class="logo">
+      <a href="home.html"><img src="logo.png" alt="BT Conference Logo"></a>
+    </div>
+    <div id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="register.html">Register</a></li>
+      <li>
+        <a href="#">About</a>
+        <ul>
+          <li><a href="about.html#mission">Mission</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="about.html#history">History</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Past Conferences</a>
+        <ul>
+          <li><a href="past.html#2024">2024</a></li>
+          <li><a href="past.html#2023">2023</a></li>
+          <li><a href="past.html#2022">2022</a></li>
+        </ul>
+      </li>
+      <li><a href="faqs.html">FAQs</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="content">
+    <section class="lecture-section">
+      <h2>Beekman Lecture Series</h2>
+      <p>The purpose of the Beekman Lectures is to stimulate and challenge the BT Conference participants with a plenary series of lectures by a leading scholar and BT practitioner on fresh and cutting-edge perspectives in the field of BT.</p>
+      <p><a href="#">See this year's speaker #1</a> | <a href="#">See this year's speaker #2</a></p>
+      <p><strong>John Beekman</strong><br>
+      John Beekman was SIL’s first Translation Consultant, the first to lead translation workshops, and SIL’s first International Translation Coordinator.</p>
+      <p><a href="#">Learn more…</a></p>
+    </section>
+
+    <section class="lecture-section">
+      <h2>Nida Lecture Series</h2>
+      <p>Consistent with the vision and mission of the Nida Institute, the Nida Lecture creates space in the conference program for the presentation of scholarship from Translation Studies and related fields.</p>
+      <p><a href="#">See This Year's Speaker</a></p>
+      <p><strong>Eugene A. Nida</strong><br>
+      Eugene A. Nida was a linguist who developed the dynamic-equivalence Bible-translation theory and one of the founders of the modern discipline of translation studies.</p>
+      <p><a href="https://en.wikipedia.org/wiki/Eugene_A._Nida">Learn more…</a></p>
+      <p><strong>Lamin Sanneh</strong><br>
+      Lamin Sanneh was known for his work on History of African Christianity and a pioneer in the academic field of world Christianity.</p>
+      <p><a href="https://en.wikipedia.org/wiki/Lamin_Sanneh">Learn More</a></p>
+    </section>
+
+    <section class="lecture-section">
+      <h2>The Lamin Sanneh Lectures</h2>
+      <p>The Lamin Sanneh lecture intends to create space in the conference program for the presentation of scholarship from missiology, culture, Scripture engagement, and historical research.</p>
+      <p><a href="#">See This Year's Speaker</a></p>
+    </section>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navItems = navLinks.querySelectorAll('li');
+
+    // Toggle main menu on mobile
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Toggle submenus on mobile
+    navItems.forEach(item => {
+      const submenu = item.querySelector('ul');
+      if(submenu) {
+        item.querySelector('a').addEventListener('click', e => {
+          e.preventDefault(); // prevent parent link from navigating
+          item.classList.toggle('open');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

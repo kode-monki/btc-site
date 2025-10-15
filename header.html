@@ -1,0 +1,197 @@
+<style>
+  /* Sticky header */
+  #sticky-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: #262e6b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    height: 60px;
+  }
+
+  #sticky-menu .logo img {
+    height: 40px;
+  }
+
+  /* Hamburger button */
+  #menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  #menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: white;
+  }
+
+  /* Nav links */
+  #sticky-menu ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+    align-items: center;
+  }
+
+  #sticky-menu ul li {
+    position: relative;
+  }
+
+  #sticky-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  #sticky-menu ul li a:hover {
+    color: #f4f4f4;
+    text-decoration: underline;
+  }
+
+  /* Dropdown menu */
+  #sticky-menu ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #262e6b;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 180px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  #sticky-menu ul li:hover > ul {
+    display: block;
+  }
+
+  #sticky-menu ul li ul li a {
+    padding: 10px 20px;
+    font-weight: normal;
+  }
+
+  #sticky-menu ul li ul li a:hover {
+    background: #1a2150;
+  }
+
+  body {
+    padding-top: 60px; /* offset for fixed header */
+  }
+
+  /* Mobile styles */
+  @media(max-width: 768px) {
+    #menu-toggle { display: flex; }
+
+    #sticky-menu ul {
+      position: fixed;
+      top: 0;
+      right: -250px; /* hidden off-canvas */
+      height: 100vh;
+      width: 250px;
+      flex-direction: column;
+      gap: 0;
+      background: #262e6b;
+      padding-top: 60px;
+      transition: right 0.3s ease;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+    }
+
+    #sticky-menu ul.open {
+      right: 0; /* slide in */
+    }
+
+    #sticky-menu ul li {
+      width: 100%;
+    }
+
+    #sticky-menu ul li ul {
+      position: static;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    #sticky-menu ul li.open > ul {
+      max-height: 500px; /* expand submenu */
+    }
+
+    #sticky-menu ul li a {
+      padding: 15px 20px;
+    }
+  }
+</style>
+
+<nav id="sticky-menu">
+  <!-- Logo -->
+  <div class="logo">
+    <a href="index.html"><img src="images/logo.png" alt="BT Conference Logo"></a>
+  </div>
+
+  <!-- Hamburger menu button -->
+  <div id="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation links -->
+  <ul id="nav-links">
+    <li><a href="register.html">Register</a></li>
+    <li>
+      <a href="#">About</a>
+      <ul>
+        <li><a href="about-lecture-series2.html">Lecture Series</a><li>
+          <li><a href="about.html#mission">Mission</a></li>
+        <li><a href="about.html#team">Team</a></li>
+        <li><a href="about.html#history">History</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Past Conferences</a>
+      <ul>
+        <li><a href="past.html#2024">2024</a></li>
+        <li><a href="past.html#2023">2023</a></li>
+        <li><a href="past.html#2022">2022</a></li>
+        <li><a href="proceedings.html">Proceedings</a></li>
+      </ul>
+    </li>
+    <li><a href="faqs.html">FAQs</a></li>
+  </ul>
+</nav>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  const navItems = navLinks.querySelectorAll('li');
+
+  // Toggle main menu on mobile
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Toggle submenus on mobile
+  navItems.forEach(item => {
+    const submenu = item.querySelector('ul');
+    if(submenu) {
+      item.querySelector('a').addEventListener('click', e => {
+        e.preventDefault(); // prevent parent link from navigating
+        item.classList.toggle('open');
+      });
+    }
+  });
+</script>
