@@ -4,71 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Detail Page</title>
+<link rel="stylesheet" type="text/css" href="style.css">
 <style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    color: #333;
-      padding-top: 50px; /* match the height of the header */
-
-  }
-  header {
-    background: #262e6b;
-    color: white;
-    padding: 25px 20px;
-    text-align: center;
-  }
-  header h1 {
-    margin: 0;
-    font-size: 2em;
-  }
-  header p {
-    margin: 5px 0;
-    font-size: 1.1em;
-  }
-  main {
-    padding: 20px;
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  section {
-    margin-bottom: 25px;
-  }
-  section h2 {
-    color: #262e6b;
-    font-size: 1.5em;
-    margin-bottom: 8px;
-  }
-  .video iframe {
-    width: 100%;
-    height: 400px;
-    border: none;
-    border-radius: 8px;
-  }
-  a.back {
-    display: inline-block;
-    margin: 20px;
-    text-decoration: none;
-    color: #262e6b;
-    font-weight: bold;
-  }
-  a.back:hover {
-    text-decoration: underline;
-  }
-  .button {
-    display: inline-block;
-    margin-right: 10px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-  }
+  
   .paper-btn { background: #0056b3; }
   .slides-btn { background: #28a745; }
   #bio { background:#d8d8d8; padding:15px; border-left:4px solid #262e6b; }
@@ -109,6 +47,8 @@
   </section>
 </main>
 
+<div id="footer-container"></div>
+
 <!-- Markdown parser -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -119,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!id) { document.getElementById("title").innerText = "No ID provided"; return; }
 
   const sheetId = "1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4";
-  const apiKey = "AIzaSyDVm6aphEoWIpLo5auPo8UN2L5wX_-8z7A";
+  const apiKey = "AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ";
   const range = "Sheet1";
 
   fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
@@ -215,6 +155,13 @@ if (rowData["Tracks"]) {
     .then(response => response.text())
     .then(html => {
       document.getElementById('header-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
     })
     .catch(err => console.error('Failed to load header:', err));
 </script>

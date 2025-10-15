@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BT Conference 2025</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BT Conference 2025</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
 <style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    line-height: 1.5;
-    background: #f4f4f4;
-  }
+  
 
   /* Hero Section */
   #hero {
@@ -45,17 +42,20 @@
 
   /* Plenary Speakers */
   #plenary-speakers {
-    padding: 60px 20px;
+    padding: 10px;
     background: #f4f4f4;
   }
-  #plenary-speakers h2 { text-align: center; color: #262e6b; margin-bottom: 40px; }
+  #plenary-speakers h2 { text-align: center; color: #262e6b; margin-bottom: 10px; }
   #speakers-list {
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px;
+    gap: 10px;
+     
   }
   .speaker-card {
+  
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -74,37 +74,12 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
+    
   }
   .speaker-card h3 { margin: 10px 0 5px; font-size: 1.1em; color: #262e6b; }
   .speaker-card p { font-size: 0.95em; color: #555; margin: 0; }
 
-  /* Sponsors */
-  #sponsors {
-    padding: 60px 20px;
-    background: white;
-    text-align: center;
-  }
-  #sponsors h2 { color: #262e6b; margin-bottom: 30px; }
-  #sponsors-logos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 20px;
-    align-items: center;
-    justify-items: center;
-  }
-  #sponsors-logos img {
-    max-height: 80px;
-    object-fit: contain;
-    transition: transform 0.3s;
-  }
-  #sponsors-logos img:hover { transform: scale(1.05); }
 
-  /* Responsive adjustments */
-  @media(max-width: 600px) {
-    #hero h1 { font-size: 2em; }
-    #hero p { font-size: 1.2em; }
-    .speaker-card { width: 140px; }
-  }
 </style>
 </head>
 <body>
@@ -122,20 +97,25 @@
 <!-- About Section -->
 <section id="about">
   <h2>About the Conference</h2>
-  <p>Join us for an immersive experience where industry leaders converge to discuss the latest in technology and innovation.</p>
+  <p>The biennial Bible Translation Conference is dedicated to advancing the theory and practice of Bible Translation. The Conference strives to promote engagement from a variety of perspectives and to foster a respectful environment that rejects all forms of discrimination and harassment
+
+</p>
 </section>
 
 <!-- Plenary Speakers -->
 <section id="plenary-speakers">
-  <h2>Plenary Speakers</h2>
+  <h2>2025 Plenary Speakers</h2>
   <div id="speakers-list"></div>
+
 </section>
 
 <!-- Sponsors Section -->
 <section id="sponsors">
-  <h2>Our Sponsors</h2>
   <div id="sponsors-logos"></div>
 </section>
+
+<div id="footer-container"></div>
+
 
 <script>
   // Load sticky header
@@ -144,11 +124,19 @@
     .then(html => document.getElementById('header-container').innerHTML = html)
     .catch(err => console.error('Failed to load header:', err));
 
+
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+
   // Google Sheets settings
   const SHEET_ID = '1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4';
-  const API_KEY = 'AIzaSyDVm6aphEoWIpLo5auPo8UN2L5wX_-8z7A';
+  const API_KEY = 'AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ';
   const SPEAKERS_RANGE = 'PlenarySpeakers!A:G'; // Year | Name | Title | Affiliation | Photo URL | Bio | Series
-  const SPONSORS_RANGE = 'Sponsors!A:B';        // Name | Logo URL
+  const SPONSORS_RANGE = 'Sponsors!A:D';        // Year | Name | Logo URL | Sponsor URL
 
   async function fetchSheetData(range) {
     const response = await fetch(
@@ -185,9 +173,9 @@
 
   function displaySponsors(sponsors) {
     const container = document.getElementById('sponsors-logos');
-    sponsors.forEach(([name, logoUrl]) => {
+    sponsors.forEach(([year, name, logoUrl, sponsorUrl]) => {
       const div = document.createElement('div');
-      div.innerHTML = `<img src="${logoUrl}" alt="${name}">`;
+      div.innerHTML = `<a href="${sponsorUrl}" target="_blank"><img src="${logoUrl}" alt="${name}"></a>`;
       container.appendChild(div);
     });
   }
