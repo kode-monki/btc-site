@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BTConference 2011</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<div id="header-container"></div>
+
+<header>
+<h4>2011 Theme:</h4>
+      <h1>The Future of Bible Translation: <br> Creative Strategies & Practical Steps</h1>
+      <p>The 6th Biennial Bible Translation Conference</p>
+</header>
+
+
+
+  <main class="content container">
+    <section class="subthemes">
+      <h2>Sub-Themes</h2>
+      <ul>
+        <li>Audience Needs and Media Alternatives</li>
+        <li>Bible Translation Theory and Practice</li>
+        <li>Bible Translation Training and Consultancy</li>
+        <li>Harnessing Technology for the BT Task</li>
+      </ul>
+    </section>
+<hr>
+    <section class="plenary-speakers">
+      <h2>Plenary & Banquet Speakers</h2>
+      <div class="speaker">
+        <h2>Beekman Lecture</h2>
+        <p><strong>James Maxey, Nida Institute for Biblical Scholarship</strong></p><p>
+
+<b>Dr. James Maxey</b> is Translations and Biblical Scholar at the Nida Institute for Biblical Scholarship at the American Bible Society and chair of the Translation Development Group of the Forum of Bible Agencies International. James was linguist-exegete for the completed Vuté New Testament translation project in Cameroon. Dr. Maxey received his PhD in World Christianity and Mission from the Lutheran School of Theology at Chicago. Besides numerous journal articles, he is the author of From Orality to Orality: A New Paradigm for Contextual Translation of the Bible. James and his wife Pam have four children and live in the Chicago area.</p>
+      </div>
+      <div class="speaker">
+        <h2>Banquet</h3>
+        <p><strong>Mark D. Taylor, President and CEO of Tyndale House Publishers</strong></p>
+<p>
+<b>Mark Taylor </b>is the President and Chief Executive Officer of Tyndale House Publishers, one of the largest Christian publishers in the USA. Tyndale was founded by his parents in 1962 to publishLiving Letters, the first part of what eventually became The Living Bible. Mark served as Chief Stylist for the Holy Bible, New Living Translation (English). He also serves as President of Tyndale House Foundation. The foundation makes grants to many non-profit organizations around the world.</p>
+      </div>
+      <!-- add more speakers -->
+       <div class="speaker">
+        <h2>Additional Speakers</h2>
+        <ul>
+            <li><strong>Dr. R. Daniel Shaw:</strong> Professor of Anthropology and Translation, Fuller Graduate School of Intercultural Studies; International Anthropology Consultant, SIL.</li>
+            <li><strong>Dr. Michael R. Walrod:</strong> President of the Canada Institute of Linguistics, Director of the MLE degree program at ACTS Seminary, and author of two books on Discourse Analysis.</li>
+            <li><strong>Dr. Simon Crisp:</strong> Director of Translation Services with the United Bible Societies. He has published widely in the fields of sociolinguistics, hermeneutics and biblical studies.</li>
+            <li><strong>Greg Pruett:</strong> President of Pioneer Bible Translators, working toward a PhD from Fuller Theological Seminary in Intercultural Studies.</li>
+        </ul>
+    </div>
+    </section>
+
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; BTConference. All rights reserved.</p>
+    </div>
+  </footer>
+<script>fetch('header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('header-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));</script>
+</body>
+</html>

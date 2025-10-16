@@ -9,27 +9,7 @@
 <style>
   
 
-  /* Hero Section */
-  #hero {
-    background-image: url('images/BTC25-Logo.webp'); /* Replace with your hero image */
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 120px 20px;
-  }
-  #hero h1 { font-size: 3em; margin-bottom: 20px; }
-  #hero p { font-size: 1.5em; margin-bottom: 30px; }
-  #hero a {
-    background-color: #262e6b;
-    color: white;
-    padding: 14px 28px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s;
-  }
-  #hero a:hover { background-color: #1a2150; }
+  
 
   /* About Section */
   #about {
@@ -53,6 +33,9 @@
     justify-content: center;
     gap: 10px;
      
+  }
+  h4{
+    margin: 5px;
   }
   .speaker-card {
   
@@ -93,10 +76,18 @@
   <a href="register.html">Register Now</a>
 </section>-->
 
-<section id="top-area">
-  <div id="top-left" style="width: 20%;"><img src="images/BTC25-Logo.webp"></div>
-  <div id="top-right" style="width: 50%;">Date Time Etc.</div>
-</section>
+<div class="two-column">
+  <div class="image-column">
+    <img src="images/BTC25-Logo.webp" alt="BTC25 Logo">
+  </div>
+  <div class="text-column">
+  
+    <p>
+      Empress Hotel • 28-31 Oct 2025 (Tues-Fri)</p>
+<h2>Chiang Mai, Thailand
+    </h2>
+  </div>
+</div>
 
 <!-- Plenary Speakers -->
 <section id="plenary-speakers">
@@ -106,7 +97,7 @@
 </section>
 
 <!-- Sponsors Section -->
-<section id="sponsors">
+<section id="sponsors" style="text-align: center;">
   <div id="sponsor-list"></div>
 </section>
 

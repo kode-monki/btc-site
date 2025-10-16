@@ -37,6 +37,45 @@ body {
     font-size: 1.1em;
   }
 
+ 
+
+.two-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap; /* Allows wrapping on small screens */
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.image-column img {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  border-radius: 5px; /* Optional styling */
+}
+
+.text-column {
+  flex: 1;
+  text-align: left;
+  min-width: 280px; /* Ensures text doesn’t squish too much */
+}
+
+@media (max-width: 768px) {
+  .two-column {
+    flex-direction: column;
+    text-align: left;
+  }
+  .image-column, .text-column {
+    max-width: 100%;
+  }
+}
+
+
+
+
   /* Sponsors */
   #sponsors{
     background-color: var(--darkblue);
