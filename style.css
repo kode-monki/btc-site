@@ -38,21 +38,48 @@ body {
   }
 
   /* Sponsors */
- #sponsors {
+  #sponsors{
+    background-color: var(--darkblue);
+  }
+  #sponsor-list{
+        display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 90%;
+    align-items: center;
+  }
+.sponsor-logos {/*
   display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 4 columns */
-  gap: 20px;  /* adjust spacing as needed */
-  justify-items: center;  /* center each sponsor within its cell */
-  align-items: center;
-  max-width: 1200px;
+  grid-template-columns: repeat(4, 1fr);  4 per row */
+  justify-items: center; /* centers each logo */
+    flex: 1 0 calc(20% - 10px); /* Adjust 10px if using gap */
+
+  gap: 20px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 20px 10px;
+  vertical-align: middle;
 }
-.sponsor img {
-  max-width: 100%;
+
+.sponsor-logos img {
+  max-width: 250px;
   height: auto;
-  display: block;
 }
+
+/* Responsive breakpoints */
+@media (max-width: 900px) {
+  .sponsor-logos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .sponsor-logos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
   .sponsor img:hover { transform: scale(1.05); }
 
   /* Responsive adjustments */
