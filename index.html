@@ -11,7 +11,7 @@
 
   /* Hero Section */
   #hero {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/5ee926dbb9317675bedf6b8c/5f0d1438-053d-4c1d-8ecd-9d58a7a64b2b/BTC25-Logo.png'); /* Replace with your hero image */
+    background-image: url('images/BTC25-Logo.webp'); /* Replace with your hero image */
     background-size: cover;
     background-position: center;
     color: white;
@@ -90,10 +90,13 @@
 <!-- Hero Section -->
 <section id="hero">
   <h1>BT Conference 2025</h1>
-  <p>Innovating the Future of Technology</p>
   <a href="register.html">Register Now</a>
 </section>
 
+<section id="top-area">
+  <div id="top-left" style="width: 50%;"><img src="images/BTC25-Logo.webp"></div>
+  <div id="top-right" style="width: 50%;">Date Time Etc.</div>
+</section>
 
 <!-- Plenary Speakers -->
 <section id="plenary-speakers">
@@ -104,7 +107,7 @@
 
 <!-- Sponsors Section -->
 <section id="sponsors">
-  <div id="sponsors-logos"></div>
+  <div id="sponsor-list"></div>
 </section>
 
 <div id="footer-container"></div>
@@ -137,6 +140,7 @@
     );
     const data = await response.json();
     if (!data.values) return [];
+    console.log(data.values.slice(1));
     return data.values.slice(1); // Skip header row
   }
 
@@ -150,7 +154,6 @@
     const photoUrl = row[4] || '';
     const bio = row[5] || '';
     const lecture = row[6] || ''; // default to empty string if missing
-
     const card = document.createElement('div');
     card.className = 'speaker-card';
     card.innerHTML = `
@@ -165,11 +168,17 @@
   }
 
   function displaySponsors(sponsors) {
-    const container = document.getElementById('sponsors-logos');
+    const container = document.getElementById('sponsor-list');
+console.log('in displaySponsors '+sponsors);
+
     sponsors.forEach(([year, name, logoUrl, sponsorUrl]) => {
-      const div = document.createElement('div');
-      div.innerHTML = `<a href="${sponsorUrl}" target="_blank"><img src="${logoUrl}" alt="${name}"></a>`;
-      container.appendChild(div);
+      console.log(year);
+      const sponsor = document.createElement('div');
+      sponsor.className = 'sponsor-style';
+      sponsor.innerHTML = `
+        <a href="${sponsorUrl}" target="_blank"><img src="${logoUrl}" alt="${name}"></a>
+        `;
+      container.appendChild(sponsor);
     });
   }
 

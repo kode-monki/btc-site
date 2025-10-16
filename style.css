@@ -38,30 +38,22 @@ body {
   }
 
   /* Sponsors */
-  #sponsors {
-    display: grid;
-  grid-template-columns: repeat(4, 1fr); /* exactly 4 per row */
-  justify-content: center; /* centers the grid horizontally */
+ #sponsors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 columns */
+  gap: 20px;  /* adjust spacing as needed */
+  justify-items: center;  /* center each sponsor within its cell */
   align-items: center;
-  gap: 40px 60px; /* row, column spacing */
-  max-width: 1000px; /* limits total width so 4 fit per row */
-  margin: 0 auto; /* centers the whole grid on the page */
-  padding: 40px 20px;
-    background-color: var(--darkblue);
-  }
-  #sponsors h2 { color: white; margin-bottom: 30px; }
-  #sponsors-logos {
-   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  }
-  #sponsors-logos img {
-    max-height: 80px;
-    object-fit: contain;
-    transition: transform 0.3s;
-  }
-  #sponsors-logos img:hover { transform: scale(1.05); }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.sponsor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+  .sponsor img:hover { transform: scale(1.05); }
 
   /* Responsive adjustments */
   @media(max-width: 600px) {
