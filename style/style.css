@@ -21,7 +21,7 @@ body {
     background: #f4f4f4;
     color: #333;
      /* padding-top: 50px; /* match the height of the header */
-padding-top: var(--header-height);
+    padding-top: var(--header-height);
   }
 
   header {
