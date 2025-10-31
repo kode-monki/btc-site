@@ -9,6 +9,8 @@
   --footer-link: #262e6b;
   --footer-link-hover: #0a2742;
   --footer-border: #444;
+  --header-height: 150px; /* match the height of the header */
+
 }
 
 body {
@@ -18,8 +20,8 @@ body {
     padding: 0;
     background: #f4f4f4;
     color: #333;
-      padding-top: 50px; /* match the height of the header */
-
+     /* padding-top: 50px; /* match the height of the header */
+padding-top: var(--header-height);
   }
 
   header {

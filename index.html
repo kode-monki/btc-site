@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BT Conference 2025</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style/style.css">
 
 <style>
   
@@ -103,21 +103,10 @@
 
 <div id="footer-container"></div>
 
+<script src="general.js"></script>
 
 <script>
-  // Load sticky header
-  fetch('header.html')
-    .then(res => res.text())
-    .then(html => document.getElementById('header-container').innerHTML = html)
-    .catch(err => console.error('Failed to load header:', err));
 
-
-  fetch('footer.html')
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('footer-container').innerHTML = html;
-    })
-    .catch(err => console.error('Failed to load header:', err));
 
   // Google Sheets settings
   const SHEET_ID = '1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4';
