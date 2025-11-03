@@ -17,7 +17,6 @@ async function loadMarkdown() {
     const content = document.getElementById('faq-content');
     content.innerHTML = marked.parse(md);
 
-    // Assign IDs
     content.querySelectorAll('h1, h2').forEach(h => h.id = slugify(h.textContent));
 
     organizeSections(content);

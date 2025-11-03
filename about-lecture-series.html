@@ -18,7 +18,7 @@
   </div>
 
   <div class="founder-card right">
-    <img src="images/Nida.jpg" alt="Eugene A. Nida">
+    <img src="images/Nida.jpg" height="300" alt="Eugene A. Nida">
     <div class="card-content">
       <h3>Eugene A. Nida</h3>
       <p>Eugene A. Nida was a linguist who developed the dynamic-equivalence Bible-translation theory and one of the founders of the modern discipline of translation studies.</p>
@@ -35,19 +35,16 @@
     </div>
   </div>
 </section>
+    <div id="footer-container"></div>
+
+<script src="general.js"></script>
+ 
 </body>
-<script>
-    fetch('header.html')
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('header-container').innerHTML = html;
-    })
-    .catch(err => console.error('Failed to load header:', err));
-</script>
+
 <style>
   .lecture-founders {
     padding: 40px 20px;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
@@ -76,7 +73,7 @@
 
   .founder-card img {
     width: 100%;
-    max-width: 400px;
+    max-width: 200px;
     height: auto;
     object-fit: cover;
     flex-shrink: 0;
@@ -130,4 +127,9 @@
     .card-content { text-align: center; }
   }
 </style>
+<script>
+  document.getElementById('footer-container').innerHTML = "hiasdfsadf";
+</script>
+<script src="general.js"></script>
+
 </html>

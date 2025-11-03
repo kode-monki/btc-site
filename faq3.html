@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Page with Sidebar</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+
+  /* Container for sidebar + content */
+  .container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  /* Left sidebar */
+  #sidebar {
+    width: 260px;
+    background: #f4f4f4;
+    overflow-y: auto;
+    padding: 10px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  #sidebar a {
+    display: block;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    margin-bottom: 2px;
+  }
+
+    #sidebar a:hover {
+    background: #ddd;
+    border-left-color: #007bff;
+  }
+
+  /* Content area scrolls independently */
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4 {
+    scroll-margin-top: 60px; /* prevents sticky header overlap */
+  }
+</style>
+</head>
+<body>
+
+<div id="header-container">
+</div>
+
+<div class="container">
+  <nav id="sidebar"></nav>
+  <main id="content"></main>
+</div>
+
+<!-- Marked.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="general.js"></script>
+
+<script>
+    
+  // Path to your Markdown file
+  const markdownFile = 'faq.md'; // put your .md file in the same folder
+
+  // Fetch the markdown file
+  fetch(markdownFile)
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to load markdown');
+      return response.text();
+    })
+    .then(markdown => {
+      const contentEl = document.getElementById('content');
+      contentEl.innerHTML = marked.parse(markdown);
+
+      // Wait 0.5 seconds to ensure rendering is complete
+      setTimeout(() => {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.innerHTML = ''; // clear any previous links
+        const headers = contentEl.querySelectorAll('h1, h2, h3, h4');
+
+        headers.forEach(header => {
+          const id = header.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+          header.id = id;
+
+          const link = document.createElement('a');
+          link.href = `#${id}`;
+          link.textContent = header.textContent;
+          link.style.paddingLeft = `${(parseInt(header.tagName[1]) - 1) * 10}px`;
+          sidebar.appendChild(link);
+        });
+
+        // Smooth scrolling
+        sidebar.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.getElementById(link.getAttribute('href').substring(1));
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }, 500); // wait 0.5s
+    })
+    .catch(err => {
+      document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+    });
+</script>
+
+</body>
+</html>

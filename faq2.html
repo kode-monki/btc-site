@@ -1,31 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BTC FAQ</title>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<link rel="stylesheet" href="faq2.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Page with Sidebar</title>
+<link rel="stylesheet" href="style/style.css" type="text/css">
+<script>
+  const markdown2 = fetch('faq.md');
+       sleep(500); // Pause for 0.5 seconds between counts
+
+  console.log(markdown2);
+</script>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Sticky top header spanning full width */
+  header {
+    position: sticky;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    background: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  /* Container for sidebar + content */
+  .container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* container itself doesn't scroll */
+    margin-top: 50px;
+  }
+
+  /* Left sidebar */
+  nav {
+    width: 200px;
+    background: #f4f4f4;
+    overflow-y: auto;
+    padding: 10px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  nav a {
+    display: block;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    margin-bottom: 2px;
+  }
+
+  nav a:hover {
+    background: #ddd;
+    border-left-color: #007bff;
+  }
+
+  /* Content area scrolls independently */
+  main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4 {
+    scroll-margin-top: 10px; /* prevent sticky header from overlapping */
+  }
+</style>
 </head>
 <body>
-  <!-- Fixed header -->
-  <div id="header-container">
-    <h1 style="margin:0; padding:0.5rem;">BTC FAQ</h1>
-  </div>
 
-  <!-- Sidebar -->
-  <nav class="sidebar" id="sidebar">
-    <div class="search-box">
-      <input type="text" id="search" placeholder="Search FAQs..." />
-    </div>
-    <div id="menu"></div>
+    <div id="header-container"></div>
+
+
+<div class="container">
+  <nav id="sidebar">
+    <!-- Navigation links will be generated here -->
   </nav>
 
-  <!-- Main content -->
-  <main id="faq-content">
-    <p>Loading FAQ...</p>
+  <main id="content">
+    <!-- Markdown content will be rendered here -->
   </main>
+</div>
 
-<script src="faq2.js"></script>
+<!-- Marked.js CDN for Markdown parsing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  // Sample Markdown content
+
+
+async function loadMarkdown() {
+  try {
+    const res = await fetch('faq.md');
+    if (!res.ok) throw new Error('Markdown file not found');
+    const md = await res.text();
+    const html = marked.parse(md);
+    const content = document.getElementById('content');
+    content.innerHTML = html;
+
+    // Assign IDs consistently
+    content.querySelectorAll('h1, h2').forEach(h => {
+      h.id = slugify(h.textContent);
+    });
+
+    organizeSections(content);
+    buildSidebar();
+  } catch (err) {
+    document.getElementById('faq-content').innerHTML = '<p>Error loading FAQ content.</p>';
+    console.error(err);
+  }
+}
+
+
+
+  const markdown = `
+# 🧭 General
+## When?
+The BTC25 Conference is 28-31 Oct 2025 (Tuesday - Friday)
+
+Registration opens March 2025. 
+
+
+
+# 🏨 Lodging
+This is the first year the BTConference is including lodging (at the [Empress Hotel](https://maps.app.goo.gl/cnM5pdxYMtHaxXuz5)) as an add-on option. When you register for the conference, make sure you have also booked your accommodation. We thank you for your patience and grace as we work through this added complexity.
+
+Update September 2025 - No more rooms are available at the Empress
+
+Suggested alternatives:
+
+1.  Duangtawan Hotel -[  ](https://www.duangtawanhotelchiangmai.com/)<https://www.duangtawanhotelchiangmai.com>
+
+2.  Movenpick Suriwongse Hotel Chiang Mai -[ https://movenpick.accor.com/en/asia/thailand/chiang-mai/movenpick-suriwongse-hotel-chiang-mai.html](https://movenpick.accor.com/en/asia/thailand/chiang-mai/movenpick-suriwongse-hotel-chiang-mai.html)
+
+3.  Chiang Mai Marriott Hotel -[ https://www.marriott.com/en-us/hotels/cnxmc-chiang-mai-marriott-hotel/overview/](https://www.marriott.com/en-us/hotels/cnxmc-chiang-mai-marriott-hotel/overview/)
+
+4.  Dusit Princess Chiang Mai -[ https://www.dusit.com/dusitprincess-chiangmai/](https://www.dusit.com/dusitprincess-chiangmai/)
+
+
+## How much do rooms cost?
+
+Empress (per person, includes breakfast and lunch 27 October - 1 November)
+
+Price is per person. 
+
+-   Deluxe single - $440 USD
+
+-   Deluxe shared - $250 USD (per person)
+
+-   Superior shared - $205 USD (per person)
+
+-   Superior single - $350 USD
+
+--------------------------
+## How much are extra nights?
+
+Superior: $60 per room per night ($30 each for a shared room)
+
+Deluxe: $80 per room per night ($40 each for a shared room)
+
+Includes breakfast.
+
+
+-----------------
+## What is included?
+
+
+Breakfast is included with your stay.
+
+Lunch is included during the conference. 
+
+Dinner is not included, but there are many affordable dining options nearby.
+
+* * * * *
+
+## Refund Policy
+Requests for cancellation and refund of registration must be received by May 31, 2025. Such registrants will receive a full refund, less a $10 administration fee. After May 31, onsite registration will be transferred to online registration, with the difference refunded. (Note: Online registration allows full access to pre-recorded presentations, ppts, papers and handouts during and after the conference).
+`;
+
+
+
+
+  // Parse Markdown to HTML
+  const contentEl = document.getElementById('content');
+ //contentEl.innerHTML = marked.parse(markdown);
+  
+
+  // Generate sidebar links
+  const sidebar = document.getElementById('sidebar');
+  const headers = contentEl.querySelectorAll('h1, h2, h3, h4');
+
+  headers.forEach(header => {
+    const id = header.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+    header.id = id;
+
+    const link = document.createElement('a');
+    link.href = `#${id}`;
+    link.textContent = header.textContent;
+    link.style.paddingLeft = `${(parseInt(header.tagName[1]) - 1) * 10}px`;
+    sidebar.appendChild(link);
+  });
+
+  // Smooth scrolling
+  sidebar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.getElementById(link.getAttribute('href').substring(1));
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+<script src="general.js"></script>
 </body>
 </html>

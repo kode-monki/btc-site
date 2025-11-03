@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('DOM fully loaded, loading markdown…');
   await loadMarkdown(); // build content + sidebar
@@ -91,6 +93,7 @@ function buildSidebar() {
       sectionDiv.className = 'menu-section';
       const h2 = document.createElement('h2');
       h2.textContent = text;
+      
       list = document.createElement('ul');
       list.className = 'active';
       sectionDiv.appendChild(h2);
@@ -129,18 +132,20 @@ setTimeout(() => {
       console.log('Clicked link for:', targetId, 'Target found:', !!target);
 
       if (target) {
+        console.log('target found');
         // Make sure target is visible in layout
-        const headerOffset = document.querySelector('#header-container')?.offsetHeight || 60;
-        const elementTop = target.getBoundingClientRect().top + window.scrollY;
-        const scrollTarget = elementTop - headerOffset;
+        const main = document.getElementById('faq-content');
+const headerOffset = document.querySelector('#header-container').offsetHeight || 50;
+console.log('header offset ', headerOffset);
 
-        console.log('Scrolling to:', scrollTarget);
+const elementTop = target.getBoundingClientRect().top + main.scrollTop;
 
-        window.scrollTo({
-          top: scrollTarget,
-          behavior: 'smooth'
-        });
-
+const scrollTarget = elementTop - headerOffset;
+console.log('scrolled to ', scrollTarget);
+console.log('target.offsetTop - headerOffset,',target.offsetTop - headerOffset);
+main.scrollTo({ 
+  top: target.offsetTop - headerOffset,
+    behavior: 'smooth' });
         // Update hash without instant jump
         history.replaceState(null, '', '#' + targetId);
       } else {
@@ -162,11 +167,11 @@ function initScrollSpy() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.id;
-        const matchingLink = document.querySelector(`.sidebar a[href="#${id}"]`);
+      const matchingLink = document.querySelector(`.sidebar a[href="#${id}"]`);
         if (matchingLink) {
           navLinks.forEach(link => link.classList.remove('active'));
           matchingLink.classList.add('active');
-
+console.log('found matchiglink');
           const parentUl = matchingLink.closest('ul');
           if (parentUl && !parentUl.classList.contains('active')) {
             parentUl.classList.add('active');
@@ -185,7 +190,12 @@ function initScrollSpy() {
         }
       }
     });
-  }, { rootMargin: '-50px 0px -70% 0px', threshold: 0 });
+  }, { 
+     root: null,
+  rootMargin: '-50px 0px -70% 0px', // adjust for sticky header
+  threshold: 0
+
+  });
 
   subsections.forEach(section => observer.observe(section));
 }
