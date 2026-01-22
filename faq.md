@@ -25,6 +25,9 @@ The in-person conference will be held at the Empress Hotel in Chiang Mai, Thaila
 -   Communication and Context
 
 # 🏨 Lodging
+
+Coming Summer 2027
+<!---
 This is the first year the BTConference is including lodging (at the [Empress Hotel](https://maps.app.goo.gl/cnM5pdxYMtHaxXuz5)) as an add-on option. When you register for the conference, make sure you have also booked your accommodation. We thank you for your patience and grace as we work through this added complexity.
 
 Update September 2025 - No more rooms are available at the Empress
@@ -102,7 +105,7 @@ For those staying at the Empress, breakfast and lunch are included Tuesday throu
 Every foreign national staying at a hotel in Thailand must provide passport information to the hotel. 
 
 You also need to  complete a Thailand Digital Arrival Card within 3 days prior to arrival. More information is given under the '[Travel FAQs](https://docs.google.com/document/d/1uUzlOVavn5biWoFnZgrENkD14zk4oikIOI9LGKEOAMI/edit?tab=t.i0uxf92zp3af)'
-
+--->
 
 # 📢For Exhibitors
 

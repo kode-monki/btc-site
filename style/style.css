@@ -3,7 +3,7 @@
    ============================== */
 :root {
   --darkblue: #262e6b;
-
+  --logoBlue: rgb(154, 234, 237);
     --footer-bg: white;   /* dark blue from btconference.org */
   --footer-text: #222;
   --footer-link: #262e6b;

@@ -6,12 +6,13 @@
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
 <title>Detail Page</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="style/style.css">
 <style>
   
   .paper-btn { background: #0056b3; }
   .slides-btn { background: #28a745; }
   #bio { background:#d8d8d8; padding:15px; border-left:4px solid #262e6b; }
+
   
 </style>
 
@@ -22,21 +23,25 @@
 <div id="header-container"></div>
 <hr style="color: white;">
 <header>
+  <div style="max-width: 800px; margin: auto;">
   <h1 id="title">Loading...</h1>
   <p id="author"></p>
-
+</div>
 </header>
 
 <main>
-  <a href="index.html" class="back">← Back to list</a>
 
 <section id="tracks-section">
-  <h2>Tracks</h2>
-  <div id="tracks-tags" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+  Track(s): <div id="tracks-tags" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 </section>
   <section>
     <h2>Abstract</h2>
+
+    <details>
+      <summary>Read</summary>
     <div id="abstract"></div>
+
+    </details>
   </section>
 
   <section id="video-section" class="video"></section>
@@ -61,8 +66,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!id) { document.getElementById("title").innerText = "No ID provided"; return; }
 
   const sheetId = "1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4";
-  const apiKey = "AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ";
-  const range = "Sheet1";
+
+
+   // 1. Your two API keys
+    const apiKeyIp = "AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ";
+    const apiKeyUrl = "AIzaSyBR5H6SA8aIcDQqiDgUiL1En1KA0Rxs9so";
+
+
+
+var apiKey = apiKeyUrl;
+const test = 1;
+if(test){
+ apiKey = apiKeyIp;
+}
+
+
+  const range = "Presentations";
 
   fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`)
     .then(res => res.json())
@@ -79,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Populate title & author
       document.getElementById("title").innerText = rowData["Title"];
-      document.getElementById("author").innerText = "Written by " + (rowData["Author"] || "Unknown");
+      document.getElementById("author").innerText = "Written by " + (rowData["Author(s)"] || "Unknown");
 
       // Abstract (Markdown)
       document.getElementById("abstract").innerHTML = rowData["Abstract"] ? marked.parse(rowData["Abstract"]) : "No abstract provided.";

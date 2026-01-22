@@ -1,0 +1,84 @@
+  .lecture-founders {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .lecture-founders h2 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #262e6b;
+    margin-bottom: 50px;
+  }
+
+  .founder-card {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    transition: transform 0.2s;
+    flex-wrap: wrap;
+  }
+
+  .founder-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .founder-card img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .card-content {
+    padding: 20px;
+    flex: 1;
+    text-align: left;
+  }
+
+  .card-content h3 {
+    font-size: 1.8em;
+    color: #262e6b;
+    margin-bottom: 15px;
+  }
+
+  .card-content p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 20px;
+  }
+
+  .card-content a {
+    display: inline-block;
+    background: #262e6b;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+
+  .card-content a:hover {
+    background: #1a2150;
+  }
+
+  /* Alternating layout */
+  .founder-card.left { flex-direction: row; }
+  .founder-card.right { flex-direction: row-reverse; }
+
+  /* Responsive for mobile */
+  @media (max-width: 768px) {
+    .founder-card {
+      flex-direction: column !important;
+      text-align: center;
+    }
+
+    .card-content { text-align: center; }
+  }
