@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <title>BT Conference 2025</title>
-  <link rel="stylesheet" type="text/css" href="style/style.css">
-  
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <link rel="stylesheet" type="text/css" href="/style/cards.css">
 
 <style>
   
@@ -39,36 +39,10 @@
   h4{
     margin: 5px;
   }
-  .speaker-card {
-  
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 180px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .speaker-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  }
-  .speaker-card img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    
-  }
-  .speaker-card h3 { margin: 10px 0 5px; font-size: 1.1em; color: #262e6b; }
-  .speaker-card p { font-size: 0.95em; color: #555; margin: 0; }
-
-
+ 
 </style>
 </head>
 <body>
-
 <!-- Include sticky header -->
 <div id="header-container"></div>
 
@@ -85,7 +59,7 @@
   <div class="text-column">
   
     <p>
-      Empress Hotel • 28-31 Oct 2025 (Tues-Fri)</p>
+      Empress Hotel • 28-31 Oct 2025</p>
 <h2>Chiang Mai, Thailand
     </h2>
   </div>
@@ -107,18 +81,16 @@
 
 <script src="general.js"></script>
 <script src="js/sponsors.js"></script>
+<script src="data.js"></script>
 <script>
 
 
-  // Google Sheets settings
-  const SHEET_ID = '1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4';
-  const API_KEY = 'AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ';
   const SPEAKERS_RANGE = 'PlenarySpeakers!A:G'; // Year | Name | Title | Affiliation | Photo URL | Bio | Series
   const SPONSORS_RANGE = 'Sponsors!A:D';        // Year | Name | Logo URL | Sponsor URL
 
   async function fetchSheetData(range) {
     const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${API_KEY}`
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`
     );
     const data = await response.json();
     if (!data.values) return [];
@@ -137,7 +109,7 @@
     const bio = row[5] || '';
     const lecture = row[6] || ''; // default to empty string if missing
     const card = document.createElement('div');
-    card.className = 'speaker-card';
+    card.className = 'card vertical';
     card.innerHTML = `
       <h4>${lecture}</h4>
       <img src="${photoUrl}" alt="${name}">

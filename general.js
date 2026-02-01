@@ -1,11 +1,11 @@
-    fetch('header.html')
+    fetch('/header.html')
         .then(response => response.text())
         .then(html => {
             document.getElementById('header-container').innerHTML = html;
         })
         .catch(err => console.error('Failed to load header:', err));
 
-   fetch('footer.html')
+   fetch('/footer.html')
   .then(response => response.text())
   .then(html => {
     console.log('footer fetched, waiting 1s...');

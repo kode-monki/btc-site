@@ -32,20 +32,13 @@
 <main>
 
 <section id="tracks-section">
-  Track(s): <div id="tracks-tags" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+  <a href="proceedings.html">⬅️ Proceedings</a>
+  <div id="tracks-tags" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 </section>
-  <section>
-    <h2>Abstract</h2>
 
-    <details>
-      <summary>Read</summary>
-    <div id="abstract"></div>
-
-    </details>
-  </section>
 
   <section id="video-section" class="video"></section>
-
+  <section id="abstract"></section>
   <section id="downloads"></section>
 
   <section id="bio">
@@ -58,28 +51,12 @@
 
 <!-- Markdown parser -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
+<script src="data.js"></script>"
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   if (!id) { document.getElementById("title").innerText = "No ID provided"; return; }
-
-  const sheetId = "1n90gNUPPrkhqQ5I_mbbDpdahei5JxCrQHXgMvaaRV-4";
-
-
-   // 1. Your two API keys
-    const apiKeyIp = "AIzaSyDJsdU6DV_Ap6LvMZgSybKCFzUYm1KzXnQ";
-    const apiKeyUrl = "AIzaSyBR5H6SA8aIcDQqiDgUiL1En1KA0Rxs9so";
-
-
-
-var apiKey = apiKeyUrl;
-const test = 1;
-if(test){
- apiKey = apiKeyIp;
-}
-
 
   const range = "Presentations";
 

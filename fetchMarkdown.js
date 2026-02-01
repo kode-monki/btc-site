@@ -1,33 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BTC FAQs</title>
-    <link rel="stylesheet" href="/style/style.css" type="text/css">
-    <link rel="stylesheet" href="/style/faq.css" type="text/css">
-    <link rel="icon" type="/image/x-icon" href="/images/favicon.ico">
-
-</head>
-<body>
-
-<div id="header-container">
-</div>
-
-<div class="container">
-  <nav id="sidebar"></nav>
-  <main id="content"></main>
-</div>
-
-<!-- Marked.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="general.js"></script>
-
-<script>
-    
-  // Path to your Markdown file
-  const markdownFile = 'faq.md'; // put your .md file in the same folder
-
   // Fetch the markdown file
 fetch(markdownFile)
   .then(response => {
@@ -103,8 +73,3 @@ fetch(markdownFile)
   .catch(err => {
     document.getElementById('content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
   });
-
-</script>
-
-</body>
-</html>
