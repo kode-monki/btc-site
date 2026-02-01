@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkPath = link.getAttribute("href");
 
     // Check if the link path matches the current window path
-    if (linkPath === currentPath || (currentPath === "/" && linkPath === "/index.html")) {
+    if (linkPath === currentPath || (currentPath === "/" && linkPath === "index.html")) {
       link.classList.add("active");
 
       // Optional: Highlight the parent if it's in a sub-menu
