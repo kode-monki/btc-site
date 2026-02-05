@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plenary Speakers Loader</title>
+    <style>
+        body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+        .speaker-card { border-left: 4px solid #3498db; background: #f9f9f9; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+        .error { color: #dc3545; font-weight: bold; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div id="output">Loading speaker data...</div>
+    </div>
+<script src="data.js"></script>
+    <script>
+        // --- CONFIGURATION ---
+        const RANGE = 'PlenarySpeakers!A:C'; // Pulls columns A, B, and C
+
+        async function init() {
+            const output = document.getElementById('output');
+            
+            // 1. Get Year from URL (?year=2023)
+            const params = new URLSearchParams(window.location.search);
+            const targetYear = params.get('year');
+
+            if (!targetYear) {
+                output.innerHTML = "<p class='error'>Error: Please provide a year in the URL (e.g., ?year=2023)</p>";
+                return;
+            }
+
+            // 2. Fetch data from Google Sheets API
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${RANGE}?key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                const rows = data.values; // This is an array of arrays
+                if (!rows || rows.length === 0) {
+                    output.innerHTML = "No data found in the spreadsheet.";
+                    return;
+                }
+
+                // 3. Filter rows locally where Column A (index 0) matches the year
+                // We skip row 0 if it's a header
+                const filtered = rows.filter(row => row[0] == targetYear);
+
+                if (filtered.length === 0) {
+                    output.innerHTML = `No speakers found for the year <strong>${targetYear}</strong>.`;
+                    return;
+                }
+
+                // 4. Render the results
+                renderSpeakers(targetYear, filtered);
+
+            } catch (err) {
+                console.error(err);
+                output.innerHTML = `<p class='error'>Failed to load data: ${err.message}</p>`;
+            }
+        }
+
+        function renderSpeakers(year, speakers) {
+            let html = `<h2>${year} Plenary Speakers</h2>`;
+            
+            speakers.forEach(row => {
+                const name = row[1] || "Unnamed Speaker";
+                const topic = row[2] || "No topic listed";
+                
+                html += `
+                    <div class="speaker-card">
+                        <strong>${name}</strong><br>
+                        <em>${topic}</em>
+                    </div>
+                `;
+            });
+
+            document.getElementById('output').innerHTML = html;
+        }
+
+        init();
+    </script>
+</body>
+</html>
