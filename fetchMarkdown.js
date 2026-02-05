@@ -1,7 +1,7 @@
   // Fetch the markdown file
 fetch(markdownFile)
   .then(response => {
-    if (!response.ok) throw new Error('Failed to load markdown');
+    if (!response.ok) throw new Error('Failed to load content');
     return response.text();
   })
   .then(markdown => {
