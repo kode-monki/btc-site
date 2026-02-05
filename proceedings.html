@@ -38,7 +38,7 @@
     <tbody></tbody>
   </table>
 
-  <script src="data.js"></script>
+  <script src="js/data.js"></script>
 
   <script>
   const range = "Presentations";
@@ -159,12 +159,10 @@
     currentSearch = e.target.value;
     renderTable(getFilteredData());
   });
-  fetch('header.html')
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('header-container').innerHTML = html;
-    })
-    .catch(err => console.error('Failed to load header:', err));
   </script>
+      <div id="footer-container"></div>
+
 </body>
+<script src="js/general.js"></script>
+
 </html>

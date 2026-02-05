@@ -58,6 +58,11 @@
   max-width: 200px;
   height: auto;
   flex-shrink: 0;
+  padding: 3px;
+}
+
+.card.round img{
+  border-radius: 50%;
 }
 
 /* --- Layout Variant: Vertical/Speaker (.vertical) --- */
