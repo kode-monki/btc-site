@@ -4,7 +4,7 @@
   const apiKeyUrl = "AIzaSyBR5H6SA8aIcDQqiDgUiL1En1KA0Rxs9so";
 
   var apiKey = apiKeyUrl;
-const test = 1;
+const test = 0;
 if(test){
  apiKey = apiKeyIp;
 }
