@@ -19,7 +19,7 @@
 <script src="data.js"></script>
     <script>
         // --- CONFIGURATION ---
-        const RANGE = 'PlenarySpeakers!A:C'; // Pulls columns A, B, and C
+        const RANGE = 'PlenarySpeakers!A:H'; // Pulls columns A, B, and C
 
         async function init() {
             const output = document.getElementById('output');
@@ -73,12 +73,25 @@
             
             speakers.forEach(row => {
                 const name = row[1] || "Unnamed Speaker";
-                const topic = row[2] || "No topic listed";
+                const title = row[2] || "No topic listed";
+                const affiliation = row[3] || "No affiliation";
+                const photo = row[4] || "No photo";
+                const bio = row[5] || "No bio";
+                const lecture = row[6] || "";
+                const profile = row[7] || "";
+//                const profile = "x" & row[7] || "yyy";
+                //const profile = "<a target=""_blank"" href=""" && row[7] && """>xxx</a>" || "";
                 
                 html += `
                     <div class="speaker-card">
-                        <strong>${name}</strong><br>
-                        <em>${topic}</em>
+                        <strong>${name}</strong> 
+                        ${profile ? `
+                        <a href="${profile}" target="_blank" rel="noopener noreferrer">
+                            View Profile →
+                        </a>
+                ` : ''}<br>
+                        <em>${title}, ${affiliation}</em>
+                        <p>${bio}</p>
                     </div>
                 `;
             });

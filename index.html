@@ -82,30 +82,36 @@
 <script src="data.js"></script>
 <script>
 
-
+  const targetYear = 2025;
   const SPEAKERS_RANGE = 'PlenarySpeakers!A:G'; // Year | Name | Title | Affiliation | Photo URL | Bio | Series
   const SPONSORS_RANGE = 'Sponsors!A:D';        // Year | Name | Logo URL | Sponsor URL
 
-  async function fetchSheetData(range) {
-    const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`
-    );
-    const data = await response.json();
-    if (!data.values) return [];
-    console.log(data.values.slice(1));
-    return data.values.slice(1); // Skip header row
-  }
 
-  function displaySpeakers(speakers) {
+async function fetchSheetData(range) {
+  const response = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`
+  );
+  const data = await response.json();
+  if (!data.values) return [];
+  
+  // Skip header and filter by targetYear immediately
+  // row[0] is the Year column (Column A)
+  return data.values.slice(1).filter(row => row[0] == targetYear);
+}
+
+function displaySpeakers(speakers) {
   const container = document.getElementById('speakers-list');
-  speakers.slice(0, 7).forEach(row => {
-    const year = row[0] || '';
+  container.innerHTML = ''; // Clear container before adding new cards
+
+  // We loop through only the speakers that matched our targetYear filter
+  speakers.forEach(row => {
     const name = row[1] || '';
     const title = row[2] || '';
     const affiliation = row[3] || '';
     const photoUrl = row[4] || '';
     const bio = row[5] || '';
-    const lecture = row[6] || ''; // default to empty string if missing
+    const lecture = row[6] || ''; 
+
     const card = document.createElement('div');
     card.className = 'card vertical';
     card.innerHTML = `
@@ -116,8 +122,7 @@
     `;
     container.appendChild(card);
   });
-
-  }
+}
 
   
 

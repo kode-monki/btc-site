@@ -4,7 +4,9 @@
   const apiKeyUrl = "AIzaSyBR5H6SA8aIcDQqiDgUiL1En1KA0Rxs9so";
 
   var apiKey = apiKeyUrl;
-const test = 0;
+const test = 1;
 if(test){
  apiKey = apiKeyIp;
 }
+
+const year = 2025;
